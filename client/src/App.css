@@ -14,6 +14,7 @@
 .character-name {
   min-height: 100px;
 }
+
 @media screen and (max-width: 480px) {
   .container {
     padding: 20px 50px;
