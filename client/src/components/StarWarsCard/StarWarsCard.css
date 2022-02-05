@@ -1,0 +1,9 @@
+.starwars-card {
+  border: 2px solid #444444;
+  padding: 2rem;
+  font-size: 2rem;
+  text-align: center;
+}
+.character-name {
+  min-height: 100px;
+}

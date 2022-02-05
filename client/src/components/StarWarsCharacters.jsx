@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import Button from "./Button";
 import Modal from "./Modal";
-import characters from '../data/characters.json';
+import StarWarsCard from "./StarWarsCard";
 
 const StarWarsCharacters = () => {
 
@@ -19,13 +18,7 @@ const StarWarsCharacters = () => {
     return (
         <>
             {isModalShow && <Modal handleCloseClick={handleCloseClick} />}
-            {characters.map((character) => (
-                <div className="starwars-card" key={character.id}>
-                    <h3 className="character-name">{character.name}</h3>
-                    <Button handleClick={() => handleCharacterView(character.id)}>View</Button>
-                </div>
-                )
-            )}
+            <StarWarsCard handleCharacterView={handleCharacterView} />
         </>
     )
 }
