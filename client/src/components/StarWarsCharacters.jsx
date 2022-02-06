@@ -6,9 +6,19 @@ const StarWarsCharacters = () => {
 
     const [isModalShow, setIsModalShow] = useState(false)
 
-    const handleCharacterView = (id) => {
+    const handleCharacterView = async (id) => {
         setIsModalShow(true);
         console.log(id);
+        const data= {id};
+        await fetch('http://localhost:8080', {
+            method: 'post',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
     }
 
     const handleCloseClick = () => {
