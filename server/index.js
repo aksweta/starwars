@@ -9,7 +9,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-const getPeople = async (id) => 
+const getPerson = async (id) => 
     await axios.get(`https://swapi.dev/api/people/${id}`)
     .then((res) => res.data)
     
@@ -55,13 +55,13 @@ const getHomeWorld = async (url) =>
 
 app.post("/", async (req, res) => {
     try {
-      const people = await getPeople(req.body.id);
-      const homeWorld = await getHomeWorld(people.homeworld);
+      const starWarsCharacter = await getPerson(req.body.id);
+      const homeWorld = await getHomeWorld(starWarsCharacter.homeworld);
 
-      const films = await getFilms(people.films);
-      const species = await getSpecies(people.species);
+      const films = await getFilms(starWarsCharacter.films);
+      const species = await getSpecies(starWarsCharacter.species);
 
-      const { name, height, mass, hair_color, skin_color, gender, birth_year } = people
+      const { name, height, mass, hair_color, skin_color, gender, birth_year } = starWarsCharacter
 
       const person = {
           name,
