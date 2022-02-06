@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const bodyParser = require('body-parser');
-const { json } = require('body-parser');
 const app = express()
 const port = 8080
 
@@ -15,25 +14,56 @@ const getPeople = async (id) =>
     .then((res) => res.data)
     
 
-const getFilmsOrSpeciesOrHomeWorld = async (urls) =>
+// const getFilmsOrSpeciesOrHomeWorld = async (urls) =>
+//     axios.all(urls.map((url) => axios.get(url)))
+//    .then((data) =>  data.map(res => res.data))
+
+const getFilms = async (urls) =>
+   axios.all(urls.map((url) => axios.get(url)))
+  .then((data) => data.map(res => {
+      return {
+          title: res.data.title,
+          director: res.data.director,
+          producer: res.data.producer,
+          release_date: res.data.release_date
+      }
+    }))
+
+
+const getSpecies = async (urls) =>
     axios.all(urls.map((url) => axios.get(url)))
-   .then((data) =>  data.map(res => res.data))
+   .then((data) => data.map(res => {
+       return {
+           name: res.data.name,
+           average_lifespan: res.data.average_lifespan,
+           classification: res.data.classification,
+           language: res.data.language
+       }
+     }))
+
+
+const getHomeWorld = async (url) =>
+    await axios.get(url)
+    .then(res => {
+        return {
+            title: res.data.name,
+            terrain: res.data.terrain,
+            population: res.data.population
+        }
+    })
 
 
 app.post("/", async (req, res) => {
     try {
-      console.log("id",(req.body.id))  
-      console.log("reuqest...",req.body);
-
       const people = await getPeople(req.body.id);
-      const homeWorld = await getFilmsOrSpeciesOrHomeWorld([people.homeworld]);
+      const homeWorld = await getHomeWorld(people.homeworld);
 
-      const films = await getFilmsOrSpeciesOrHomeWorld(people.films);
-      const species = await getFilmsOrSpeciesOrHomeWorld(people.species);
+      const films = await getFilms(people.films);
+      const species = await getSpecies(people.species);
 
       const { name, height, mass, hair_color, skin_color, gender, birth_year } = people
 
-      const starWarsData = {
+      const person = {
           name,
           height,
           mass,
@@ -45,7 +75,7 @@ app.post("/", async (req, res) => {
           species,
           films
       }
-      res.send(JSON.stringify(starWarsData));
+      res.send(JSON.stringify(person));
     } catch (ex) {
  
     }
