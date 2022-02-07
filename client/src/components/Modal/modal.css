@@ -9,7 +9,7 @@
 .modal_content {
   background-color: #ffffff;
   position: absolute;
-  top: 10%;
+  top: 1%;
   left: 20%;
   width: 60%;
   padding: 20px;
@@ -20,9 +20,14 @@
 .close {
   color: #000000;
   float: right;
+  font-size: 30px;
 }
   
 .close:hover {
   color: #ff0000;
   cursor: pointer;
+}
+
+table td, table tr {
+  padding: 10px;
 }
